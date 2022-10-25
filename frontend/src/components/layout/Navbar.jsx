@@ -1,26 +1,31 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useSelector, useDispatch } from "react-redux"
+import { logout, reset } from "../../features/auth/authSlice"
 
 import { ReactComponent as Logo } from "../../assets/logo.svg"
 
-import { theme } from "../theme/theme"
-import { styled, alpha } from "@mui/material/styles"
+import { styled } from "@mui/material/styles"
 import {
 	Box,
-	Typography,
 	AppBar,
 	Toolbar,
-	Grid,
 	Stack,
-	Button,
 	InputBase,
 	IconButton,
+	Avatar,
+	Menu,
+	MenuItem,
+	Divider,
 } from "@mui/material"
+
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined"
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined"
 import SearchIcon from "@mui/icons-material/Search"
 import MenuIcon from "@mui/icons-material/Menu"
+import Logout from "@mui/icons-material/Logout"
+import ListItemIcon from "@mui/material/ListItemIcon"
 
 const StyledToolbar = styled(Toolbar)({
 	backgroundColor: "#fff",
@@ -67,6 +72,26 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 function Navbar() {
+	const navigate = useNavigate()
+	const dispatch = useDispatch()
+
+	const { user } = useSelector((state) => state.auth)
+
+	const onLogout = () => {
+		dispatch(logout())
+		dispatch(reset())
+		navigate("/")
+	}
+
+	const [anchorEl, setAnchorEl] = React.useState(null)
+	const open = Boolean(anchorEl)
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget)
+	}
+	const handleClose = () => {
+		setAnchorEl(null)
+	}
+
 	return (
 		<>
 			<Box>
@@ -129,16 +154,31 @@ function Navbar() {
 									flexDirection: "row",
 									justifyContent: "center",
 								}}>
-								<Link to='/login'>
+								{user ? (
 									<IconButton
 										size='large'
 										edge='start'
 										color='inherit'
-										aria-label='menu'
-										sx={{ mr: 2 }}>
+										onClick={handleClick}
+										sx={{ mr: 2 }}
+										aria-controls={open ? "account-menu" : undefined}
+										aria-haspopup='true'
+										aria-expanded={open ? "true" : undefined}>
 										<PersonOutlinedIcon />
 									</IconButton>
-								</Link>
+								) : (
+									<Link to='/login'>
+										<IconButton
+											size='large'
+											edge='start'
+											color='inherit'
+											aria-label='menu'
+											sx={{ mr: 2 }}>
+											<PersonOutlinedIcon />
+										</IconButton>
+									</Link>
+								)}
+
 								<IconButton
 									size='large'
 									edge='start'
@@ -156,6 +196,52 @@ function Navbar() {
 									<ShoppingCartOutlinedIcon />
 								</IconButton>
 							</Stack>
+							<Menu
+								anchorEl={anchorEl}
+								id='account-menu'
+								open={open}
+								onClose={handleClose}
+								onClick={handleClose}
+								PaperProps={{
+									elevation: 0,
+									sx: {
+										overflow: "visible",
+										filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+										mt: 1.5,
+										"& .MuiAvatar-root": {
+											width: 32,
+											height: 32,
+											ml: -0.5,
+											mr: 1,
+										},
+										"&:before": {
+											content: '""',
+											display: "block",
+											position: "absolute",
+											top: 0,
+											right: 14,
+											width: 10,
+											height: 10,
+											bgcolor: "background.paper",
+											transform: "translateY(-50%) rotate(45deg)",
+											zIndex: 0,
+										},
+									},
+								}}
+								transformOrigin={{ horizontal: "right", vertical: "top" }}
+								anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
+								<MenuItem>
+									<Avatar /> Profile
+								</MenuItem>
+
+								<Divider />
+								<MenuItem onClick={onLogout}>
+									<ListItemIcon>
+										<Logout fontSize='small' />
+									</ListItemIcon>
+									Logout
+								</MenuItem>
+							</Menu>
 						</Box>
 					</StyledToolbar>
 				</StyledAppBar>
