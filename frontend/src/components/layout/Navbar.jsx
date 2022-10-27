@@ -119,7 +119,16 @@ function Navbar() {
 									sx={{ mr: 2 }}>
 									<MenuIcon />
 								</IconButton>
-								<Box>
+								<Box
+									sx={{
+										width: {
+											xs: "70%",
+											sm: "80%",
+											md: "90%",
+											lg: "100%",
+											xl: "100%",
+										},
+									}}>
 									<Link to='/'>
 										<Logo />
 									</Link>
