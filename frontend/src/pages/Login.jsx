@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { login, reset } from "../features/auth/authSlice"
 import { toast } from "react-toastify"
-import Spinner from "../assets/spinner.gif"
+import Spinner from "../components/Spinner"
 
 import { styled } from "@mui/material/styles"
 import { TextField, Typography, Box, Stack, Button } from "@mui/material"
@@ -58,16 +58,7 @@ export default function Login() {
 		dispatch(login(userData))
 	}
 	if (isLoading) {
-		return (
-			<div className='w-100 mt-20'>
-				<img
-					width={120}
-					className='text-center mx-auto'
-					src={Spinner}
-					alt='Loading'
-				/>
-			</div>
-		)
+		return <Spinner />
 	} else {
 		return (
 			<>

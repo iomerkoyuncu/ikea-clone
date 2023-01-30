@@ -16,11 +16,7 @@ const productSchema = mongoose.Schema(
 			required: true,
 		},
 		categories: {
-			type: Array,
-			required: true,
-		},
-		images: {
-			type: Array,
+			type: String,
 			required: true,
 		},
 		color: {

@@ -51,12 +51,15 @@ const getProducts = asyncHandler(async (req, res) => {
 //@route 	POST /api/products
 //@access Private
 const createProduct = asyncHandler(async (req, res) => {
-	const { title, description, color, price, categories, images } = req.body
+	const { title, description, color, price, categories } = req.body
 
+
+	/*
 	if (!title || !description) {
 		res.status(400)
 		throw new Error("Please add the product information")
 	}
+	*/
 
 	const user = await User.findById(req.user.id)
 
@@ -72,10 +75,10 @@ const createProduct = asyncHandler(async (req, res) => {
 		color,
 		price,
 		categories,
-		images,
+		img: req.file.path,
 	})
 
-	res.status(201).json(product)
+	res.status(201).json({ ok: "ok" })
 })
 
 //@desc 	Update product

@@ -13,7 +13,6 @@ import {
 	Stack,
 	InputBase,
 	IconButton,
-	Avatar,
 	Menu,
 	MenuItem,
 	Divider,
@@ -25,7 +24,9 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined"
 import SearchIcon from "@mui/icons-material/Search"
 import MenuIcon from "@mui/icons-material/Menu"
 import Logout from "@mui/icons-material/Logout"
+import SellOutlinedIcon from "@mui/icons-material/SellOutlined"
 import ListItemIcon from "@mui/material/ListItemIcon"
+import PersonIcon from "@mui/icons-material/Person"
 
 const StyledToolbar = styled(Toolbar)({
 	backgroundColor: "#fff",
@@ -187,23 +188,26 @@ function Navbar() {
 										</IconButton>
 									</Link>
 								)}
-
-								<IconButton
-									size='large'
-									edge='start'
-									color='inherit'
-									aria-label='menu'
-									sx={{ mr: 2 }}>
-									<FavoriteBorderOutlinedIcon />
-								</IconButton>
-								<IconButton
-									size='large'
-									edge='start'
-									color='inherit'
-									aria-label='menu'
-									sx={{ mr: 2 }}>
-									<ShoppingCartOutlinedIcon />
-								</IconButton>
+								<Link to='favourites'>
+									<IconButton
+										size='large'
+										edge='start'
+										color='inherit'
+										aria-label='menu'
+										sx={{ mr: 2 }}>
+										<FavoriteBorderOutlinedIcon />
+									</IconButton>
+								</Link>
+								<Link to='/cart'>
+									<IconButton
+										size='large'
+										edge='start'
+										color='inherit'
+										aria-label='menu'
+										sx={{ mr: 2 }}>
+										<ShoppingCartOutlinedIcon />
+									</IconButton>
+								</Link>
 							</Stack>
 							<Menu
 								anchorEl={anchorEl}
@@ -239,9 +243,22 @@ function Navbar() {
 								}}
 								transformOrigin={{ horizontal: "right", vertical: "top" }}
 								anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
-								<MenuItem>
-									<Avatar /> Profile
-								</MenuItem>
+								<Link to='/profile'>
+									<MenuItem>
+										<ListItemIcon>
+											<PersonIcon />
+										</ListItemIcon>
+										Profile
+									</MenuItem>
+								</Link>
+								<Link to='/sellings'>
+									<MenuItem>
+										<ListItemIcon>
+											<SellOutlinedIcon />
+										</ListItemIcon>
+										My Sellings
+									</MenuItem>
+								</Link>
 
 								<Divider />
 								<MenuItem onClick={onLogout}>
